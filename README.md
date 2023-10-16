@@ -12,7 +12,7 @@ This module uses the official Kali Linux AMI. The marketplace agreement needs to
 This works great if you only need command-line access to the instance.
 ```hcl
 module "kali-ec2" {
-  source             = "git@github.com:Ngibb/kali-ec2.git?ref=develop"
+  source             = "git::https://github.com/Ngibb/terraform-kali-linux-ec2.git"
 }
 
 output "ssm_start_session_command" {
@@ -39,7 +39,7 @@ The AWS documentation for SSH through SSM can be found [here](https://docs.aws.a
 
 ```hcl
 module "kali-ec2" {
-  source             = "git@github.com:Ngibb/kali-ec2.git?ref=develop"
+  source             = "git::https://github.com/Ngibb/terraform-kali-linux-ec2.git"
   priv_key_directory = "/home/ngibb/.ssh" # Writes out your private key for the instance.
 }
 
