@@ -1,9 +1,5 @@
 data "aws_region" "current" {}
 
-data "template_file" "user_data" {
-  template = file(coalesce(var.user_data_filepath, "${path.module}/userdata.sh"))
-}
-
 data "aws_ami" "kali" {
   owners      = ["679593333241"]
   most_recent = true

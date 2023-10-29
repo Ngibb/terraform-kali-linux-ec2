@@ -1,0 +1,35 @@
+#!/bin/bash
+mkdir /tmp/ssm
+cd /tmp/ssm
+wget https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/debian_amd64/amazon-ssm-agent.deb
+dpkg -i amazon-ssm-agent.deb
+systemctl enable amazon-ssm-agent
+
+%{ if enable_rdp == true }
+#!/bin/sh
+echo "[i] Running apt-get update"
+apt-get update
+
+echo "[i] Installing Xfce4 & xrdp (this will take a while as well)"
+DEBIAN_FRONTEND=noninteractive apt-get install -y kali-desktop-xfce xorg xrdp
+
+echo "[i] Configuring xrdp to listen to port ${rdp_port} (but not starting the service)"
+sed -i 's/port=3389/port=${rdp_port}/g' /etc/xrdp/xrdp.ini
+
+echo "[i] Enabling xrdp"
+systemctl enable xrdp --now
+
+echo "[i] Setting default password for Kali"
+echo kali:${kali_password} | chpasswd
+
+echo "[i] Allow all users to user colord
+mkdir -p /etc/polkit-1/localauthority/50-local.d/
+cat <<EOF | sudo tee /etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla
+[Allow Colord all Users]
+Identity=unix-user:*
+Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+EOF
+%{ endif }

@@ -5,7 +5,7 @@ resource "aws_instance" "kali" {
   associate_public_ip_address = var.associate_public_ip
   subnet_id                   = local.chosen_subnet_id
   vpc_security_group_ids      = local.chosen_security_groups
-  user_data                   = base64encode(data.template_file.user_data.rendered)
+  user_data                   = base64encode(local.chosen_userdata_string)
   iam_instance_profile        = local.chosen_instance_profile_name
   metadata_options {
     http_tokens = "required"
