@@ -10,21 +10,25 @@ EOT
 
 variable "vpc_id" {
   default = null
+  description = "Used to deploy the instance within your own existing netowrking resources, instead of those created by the module. vpc_id, subnet_id, and security_group_ids must all be defined together, or not at all."
   type    = string
 }
 
 variable "subnet_id" {
   default = null
+  description = "Used to deploy the instance within your own existing netowrking resources, instead of those created by the module. vpc_id, subnet_id, and security_group_ids must all be defined together, or not at all."
   type    = string
 }
 
 variable "security_group_ids" {
   default = null
+  description = "Used to deploy the instance within your own existing netowrking resources, instead of those created by the module. vpc_id, subnet_id, and security_group_ids must all be defined together, or not at all."
   type    = list(string)
 }
 
 variable "instance_type" {
   default = "t2.nano"
+  description = "The type of EC2 instance to create."
   type    = string
 }
 
